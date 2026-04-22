@@ -28,26 +28,33 @@ public class AtomicTaskCounter {
      * Atomically increments the counter by one.
      * TODO: update the counter without using synchronized
      */
+    public final AtomicInteger safeCount = new AtomicInteger(0);
+
     public void increment() {
         // TODO: implement
+        safeCount.incrementAndGet();
     }
 
     /**
      * Atomically decrements the counter by one.
      * TODO: update the counter without using synchronized
      */
+
+
     public void decrement() {
         // TODO: implement
+        safeCount.decrementAndGet();
     }
 
     /** Returns the current counter value. */
     public int getCount() {
         // TODO: implement
-        return 0;
+        return safeCount.get();
     }
 
     /** Resets the counter to zero. */
     public void reset() {
         // TODO: implement
+        safeCount.set(0);
     }
 }

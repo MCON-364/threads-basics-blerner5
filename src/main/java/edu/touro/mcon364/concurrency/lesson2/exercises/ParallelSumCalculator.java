@@ -3,6 +3,7 @@ package edu.touro.mcon364.concurrency.lesson2.exercises;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
+import java.util.stream.IntStream;
 
 /**
  * Exercise 5 — Returning values from concurrent tasks with {@link Callable} and
@@ -42,20 +43,48 @@ public class ParallelSumCalculator {
 
         // TODO: create a thread pool with the right number of workers
 
+
         // TODO: divide numbers into roughly equal slices — one slice per worker
         //       Think: how do you calculate the slice size without losing
         //       the last few elements when the list doesn't divide evenly?
+        ExecutorService executor = Executors.newFixedThreadPool(workers);
+
+        int chunkSize = (numbers.size()+workers -1) /workers;
+
+
+
+
+
+
 
         // TODO: submit each slice as a task that returns its partial sum.
         //       Collect the handles to the results — but do NOT ask for the
         //       answers yet, so that all slices run at the same time.
         List<Future<Long>> futures = new ArrayList<>();
+        for(int start = 0; start < numbers.size(); start += chunkSize) {
+            int from = start;
+            int to = Math.min(start + chunkSize, numbers.size());
+        Callable<Long>task = () -> {
+            long sum = 0;
+            for (int i = from; i < to; i++) {
+                sum+=numbers.get(i);
+            }
+            return sum;
+        };
+            futures.add(executor.submit(task));
 
+        }
         // TODO: now that all slices are running, collect each partial sum
         //       and add it to the total
         long total = 0;
+        for(Future<Long> future : futures) {
+            total += future.get();
+        }
 
         // TODO: release pool resources before returning
+        executor.shutdown();
+        executor.awaitTermination(10, TimeUnit.SECONDS);
+
         return total;
     }
 }
