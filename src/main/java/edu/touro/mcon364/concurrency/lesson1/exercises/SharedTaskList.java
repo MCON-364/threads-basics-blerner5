@@ -28,7 +28,8 @@ import java.util.List;
 public class SharedTaskList {
 
     // TODO: replace this unsafe list with a thread-safe one
-    private final List<Task> tasks = new ArrayList<>();
+    private final List<Task> tasks = java.util.Collections.synchronizedList(new ArrayList<>());
+
 
     /** Adds a task to the shared list. */
     public void add(Task task) {
