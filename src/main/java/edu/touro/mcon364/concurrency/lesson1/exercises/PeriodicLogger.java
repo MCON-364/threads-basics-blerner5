@@ -57,7 +57,7 @@ public class PeriodicLogger {
                } catch (InterruptedException e) {
                    return;
                }
-               log.add("tick "+i);
+               log.add("tick "+(i+1));
            }
        });
        worker.setName("Periodic-Logger");

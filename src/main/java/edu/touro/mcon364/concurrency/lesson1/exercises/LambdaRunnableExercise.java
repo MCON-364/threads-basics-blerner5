@@ -69,21 +69,21 @@ public class LambdaRunnableExercise {
         // TODO: create two threads using inline lambda syntax, start both,
         //       join both, and store results in highCount and lowCount.
         Thread thread1 = new Thread(() -> {
-            int highCount = 0;
+            highCount = 0;
             for (Task task : tasks) {
                 if(task.priority()== Priority.HIGH) {
                     highCount++;
                 }
             }
-        });
+        }, "counter-a");
        Thread thread2 = new Thread(() -> {
-        int lowCount =0;
+        lowCount =0;
         for (Task task : tasks) {
             if(task.priority() == Priority.LOW) {
                 lowCount++;
             }
         }
-       });
+       }, "counter-b");
        thread1.start();
        thread2.start();
        thread1.join();
