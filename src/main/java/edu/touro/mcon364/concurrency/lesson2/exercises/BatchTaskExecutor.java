@@ -46,7 +46,7 @@ public class BatchTaskExecutor {
                 completedCount.incrementAndGet();
                 String threadName = Thread.currentThread().getName();
                 synchronized (workerNames) {
-                    workerNames.add(name);
+                    workerNames.add(threadName);
                 }
             });
             // TODO: hand each task to the pool — the work should:
